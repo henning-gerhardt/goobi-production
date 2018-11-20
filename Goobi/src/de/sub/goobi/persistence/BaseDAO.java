@@ -193,10 +193,12 @@ public abstract class BaseDAO implements Serializable {
         Transaction tx = null;
         try {
             session = Helper.getHibernateSession();
-            tx = session.beginTransaction();
-            session.saveOrUpdate(obj);
-            session.flush();
-            tx.commit();
+            synchronized (obj) {
+                tx = session.beginTransaction();
+                session.saveOrUpdate(obj);
+                session.flush();
+                tx.commit();
+            }
         } catch (HibernateException he) {
             if (tx != null) {
                 tx.rollback();
@@ -242,9 +244,23 @@ public abstract class BaseDAO implements Serializable {
     }
 
     protected void refresh(Object o) {
-        Session session = Helper.getHibernateSession();
-        session.refresh(o);
-        session.close();
+        Session session = null;
+        Transaction tx = null;
+        try {
+            session = Helper.getHibernateSession();
+            synchronized (o) {
+                tx = session.beginTransaction();
+                session.refresh(o);
+                tx.commit();
+            }
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @SuppressWarnings("rawtypes")
@@ -262,9 +278,23 @@ public abstract class BaseDAO implements Serializable {
     }
 
     protected void updateObj(Object o) {
-        Session session = Helper.getHibernateSession();
-        session.update(o);
-        session.close();
+        Session session = null;
+        Transaction tx = null;
+        try {
+            session = Helper.getHibernateSession();
+            synchronized (o) {
+                tx = session.beginTransaction();
+                session.update(o);
+                tx.commit();
+            }
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @SuppressWarnings("rawtypes")

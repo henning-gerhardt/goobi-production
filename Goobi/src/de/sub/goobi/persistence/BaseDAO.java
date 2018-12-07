@@ -60,12 +60,7 @@ public abstract class BaseDAO implements Serializable {
                 tx.commit();
             }
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session, tx);
             throw new DAOException(e);
         }
     }
@@ -96,12 +91,7 @@ public abstract class BaseDAO implements Serializable {
                 tx.commit();
             }
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session, tx);
             throw new DAOException(e);
         }
     }
@@ -122,9 +112,7 @@ public abstract class BaseDAO implements Serializable {
             session = Helper.getHibernateSession();
             return session.get(c, id);
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
@@ -139,9 +127,7 @@ public abstract class BaseDAO implements Serializable {
             session = Helper.getHibernateSession();
             return session.createQuery(query).list();
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
@@ -159,9 +145,7 @@ public abstract class BaseDAO implements Serializable {
             q.setMaxResults(max);
             return q.list();
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
@@ -175,9 +159,7 @@ public abstract class BaseDAO implements Serializable {
             session = Helper.getHibernateSession();
             return (Long) session.createQuery("select count(*) " + query).uniqueResult();
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
@@ -200,12 +182,7 @@ public abstract class BaseDAO implements Serializable {
                 tx.commit();
             }
         } catch (HibernateException he) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session, tx);
             throw new DAOException(he);
         }
 
@@ -223,12 +200,7 @@ public abstract class BaseDAO implements Serializable {
             session.flush();
             tx.commit();
         } catch (HibernateException he) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session, tx);
             throw new DAOException(he);
         }
     }
@@ -254,12 +226,7 @@ public abstract class BaseDAO implements Serializable {
                 tx.commit();
             }
         } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session, tx);
         }
     }
 
@@ -270,9 +237,7 @@ public abstract class BaseDAO implements Serializable {
             session = Helper.getHibernateSession();
             return session.load(c, id);
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
@@ -288,12 +253,7 @@ public abstract class BaseDAO implements Serializable {
                 tx.commit();
             }
         } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session, tx);
         }
     }
 
@@ -306,9 +266,7 @@ public abstract class BaseDAO implements Serializable {
             q.setParameter(0, parameter);
             return q.list();
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
@@ -330,10 +288,23 @@ public abstract class BaseDAO implements Serializable {
             q.setString(namedParameter, parameter);
             return q.list();
         } catch (HibernateException he) {
-            if (session != null) {
-                session.close();
-            }
+            errorHandling(session);
             throw new DAOException(he);
         }
     }
+
+    private static void errorHandling(Session session) {
+        if (session != null) {
+            session.close();
+        }
+    }
+
+    private static void errorHandling(Session session, Transaction transaction) {
+        if (transaction != null) {
+            transaction.rollback();
+        }
+
+        errorHandling(session);
+    }
+
 }

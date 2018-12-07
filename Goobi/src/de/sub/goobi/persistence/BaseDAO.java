@@ -133,7 +133,7 @@ public abstract class BaseDAO implements Serializable {
      * Mein eigener Entwurf für Rückgabe der Objekte
      */
     @SuppressWarnings("rawtypes")
-    protected List retrieveObjs(String query) throws DAOException {
+    List retrieveObjs(String query) throws DAOException {
         Session session = null;
         try {
             session = Helper.getHibernateSession();
@@ -169,7 +169,7 @@ public abstract class BaseDAO implements Serializable {
     /**
      * Mein eigener Entwurf für Ermittlung der Anzahl der Objekte
      */
-    protected Long retrieveAnzahl(String query) throws DAOException {
+    Long retrieveAnzahl(String query) throws DAOException {
         Session session = null;
         try {
             session = Helper.getHibernateSession();
@@ -211,7 +211,7 @@ public abstract class BaseDAO implements Serializable {
 
     }
 
-    protected void storeList(List<Object> list) throws DAOException {
+    void storeList(List<Object> list) throws DAOException {
         Session session = null;
         Transaction tx = null;
         try {
@@ -264,7 +264,7 @@ public abstract class BaseDAO implements Serializable {
     }
 
     @SuppressWarnings("rawtypes")
-    protected Object loadObj(Class c, Integer id) throws DAOException {
+    Object loadObj(Class c, Integer id) throws DAOException {
         Session session = null;
         try {
             session = Helper.getHibernateSession();
@@ -277,7 +277,7 @@ public abstract class BaseDAO implements Serializable {
         }
     }
 
-    protected void updateObj(Object o) {
+    void updateObj(Object o) {
         Session session = null;
         Transaction tx = null;
         try {
@@ -298,7 +298,7 @@ public abstract class BaseDAO implements Serializable {
     }
 
     @SuppressWarnings("rawtypes")
-    protected List retrieveObjs(String queryString, String parameter) throws DAOException {
+    List retrieveObjs(String queryString, String parameter) throws DAOException {
         Session session = null;
         try {
             session = Helper.getHibernateSession();
@@ -322,7 +322,7 @@ public abstract class BaseDAO implements Serializable {
      * @return List
      * @throws DAOException
      */
-    protected List retrieveObjs(String queryString, String namedParameter, String parameter) throws DAOException {
+    List retrieveObjs(String queryString, String namedParameter, String parameter) throws DAOException {
         Session session = null;
         try {
             session = Helper.getHibernateSession();

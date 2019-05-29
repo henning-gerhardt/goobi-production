@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,6 +30,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.kitodo.api.imagemanagement.ImageManagementInterface;
 import org.kitodo.data.database.enums.LinkingMode;
 import org.kitodo.forms.FolderGenerator;
@@ -60,6 +63,8 @@ import org.kitodo.forms.FolderGenerator;
  */
 @Entity
 @Table(name = "folder")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Folder extends BaseBean {
     /**
      * Default {@code fileGrp}s supported by the DFG viewer. The list is used to

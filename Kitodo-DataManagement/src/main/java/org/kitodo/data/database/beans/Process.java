@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,8 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.kitodo.data.database.persistence.ProcessDAO;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -42,6 +45,8 @@ import org.kitodo.data.database.persistence.ProcessDAO;
 // the Coding Guidelines (e.g. *english* names).
 @Entity
 @Table(name = "process")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Process extends BaseTemplateBean {
 
     @Column(name = "sortHelperImages")

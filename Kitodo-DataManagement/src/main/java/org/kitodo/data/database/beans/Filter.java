@@ -14,6 +14,7 @@ package org.kitodo.data.database.beans;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -21,11 +22,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * Filter bean.
  */
 @Entity
 @Table(name = "filter")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Filter extends BaseIndexedBean {
 
     @Column(name = "value", columnDefinition = "longtext")

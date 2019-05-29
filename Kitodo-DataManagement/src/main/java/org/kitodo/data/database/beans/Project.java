@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.kitodo.data.database.enums.MetadataFormat;
 import org.kitodo.data.database.persistence.ProjectDAO;
 
@@ -52,6 +55,8 @@ import org.kitodo.data.database.persistence.ProjectDAO;
 // "field" as one might expect.
 @Entity
 @Table(name = "project")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Project extends BaseIndexedBean implements Comparable<Project> {
 
     /**

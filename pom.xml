@@ -119,12 +119,15 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-        <repository>
-            <id>alfresco</id>
-            <name>Alfresco repository</name>
-            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
-        </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>alfresco</id>
+            <name>alfresco</name>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <modules>
         <module>Kitodo-DataManagement</module>

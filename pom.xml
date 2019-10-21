@@ -119,6 +119,11 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
+        <repository>
+            <id>alfresco</id>
+            <name>Alfresco repository</name>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+        </repository>
     </repositories>
 
     <modules>
@@ -235,6 +240,18 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>tomcat</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat8-maven-plugin</artifactId>
+                        <version>3.0-r1756463</version>
                     </plugin>
                 </plugins>
             </build>
